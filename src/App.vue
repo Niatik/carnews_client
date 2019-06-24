@@ -81,8 +81,7 @@
       menuItems () {
         if (this.$auth.check()) {
           return [
-            { title: 'Главная', path: '/home', icon: 'home' },
-            { title: 'Категории', path: '/categories'},
+            { title: 'Главная', path: '/', icon: 'home' },
             { title: 'Избранное', path: '/favorites'},
           ]
         } else {
