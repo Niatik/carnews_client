@@ -8,36 +8,39 @@ import store from './store'
 
 Vue.config.productionTip = false
 
-Vue.use(VueAxios, axios);
 
+Vue.use(VueAxios, axios);
+axios.defaults.baseURL = 'http://mysite.local/api';
+
+Vue.router = router
 Vue.use(require('@websanova/vue-auth'), {
   auth: require('@websanova/vue-auth/drivers/auth/bearer.js'),
   http: require('@websanova/vue-auth/drivers/http/axios.1.x.js'),
   router: require('@websanova/vue-auth/drivers/router/vue-router.2.x.js'),
   registerData: {
-      url: '/api/register',
+      url: '/register',
       method: 'POST',
   },
   loginData: {
-      url: '/api/login',
+      url: '/login',
       method: 'POST',
-      redirect: '/home',
+      redirect: '/',
       fetchUser: true,
   },
   logoutData: {
-      url: '/api/logout',
+      url: '/logout',
       method: 'POST',
-      redirect: '/',
-      makeRequest: false
+      redirect: '/login',
+      makeRequest: true
   },
   refreshData: {
-      url: '/api/refresh',
+      url: '/refresh',
       method: 'GET',
       enabled: true,
       interval: 30,
   },
   fetchData: {
-      url: '/api/me',
+      url: '/me',
       method: 'GET',
       enabled: true
   },
