@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/Home.vue'
-import Login from './views/Login.vue'
+import Home from './views/Home'
+import Login from './views/Login'
 import Register from './views/Register'
+import PostTable from './views/PostTable'
 
 Vue.use(Router)
 
@@ -41,6 +42,14 @@ export default new Router({
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
-    }
+    },
+    {
+      path: '/categories/:category_id/posts',
+      component: PostTable,
+      name: 'posts',
+      meta: {
+        auth: true
+      }
+    },
   ]
 })
