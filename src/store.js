@@ -6,6 +6,7 @@ Vue.use(Vuex);
 export  default new Vuex.Store({
   state: {
     appTitle: 'Объявления',
+    pathToApiSite: 'http://mysite.local',
     user: null,
     error: false,
     errors: null,
