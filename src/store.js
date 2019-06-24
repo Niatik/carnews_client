@@ -57,7 +57,7 @@ export  default new Vuex.Store({
           password: payload.password
         },
         rememberMe: true,
-        redirect: '/home',
+        redirect: '/',
         success: function () {
           commit('setError', false)
           commit('setLoading', false)
