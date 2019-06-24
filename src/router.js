@@ -4,6 +4,7 @@ import Home from './views/Home'
 import Login from './views/Login'
 import Register from './views/Register'
 import PostTable from './views/PostTable'
+import Post from './views/Post'
 
 Vue.use(Router)
 
@@ -47,6 +48,14 @@ export default new Router({
       path: '/categories/:category_id/posts',
       component: PostTable,
       name: 'posts',
+      meta: {
+        auth: true
+      }
+    },
+    {
+      path: '/categories/:category_id/posts/:post_id',
+      component: Post,
+      name: 'post',
       meta: {
         auth: true
       }
