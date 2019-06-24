@@ -6,6 +6,7 @@ import Register from './views/Register'
 import PostTable from './views/PostTable'
 import Post from './views/Post'
 import SubscriptionTable from './views/SubscriptionTable'
+import Subscription from'./views/Subscription'
 
 Vue.use(Router)
 
@@ -68,6 +69,15 @@ export default new Router({
       meta: {
         auth: true
       }
+    },
+    {
+      path: '/subscriptions/:subscription_id',
+      component: Subscription,
+      name: 'subscription',
+      meta: {
+        auth: true
+      }
     }
+
   ]
 })
