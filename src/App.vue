@@ -83,6 +83,7 @@
           return [
             { title: 'Главная', path: '/', icon: 'home' },
             { title: 'Избранное', path: '/favorites'},
+            { title: 'Подписки', path: '/subscriptions'}
           ]
         } else {
           return [
