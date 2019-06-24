@@ -135,13 +135,6 @@
       viewPosts(item) {
         this.$router.push({ path: `/categories/${item.id}/posts` })
       },
-      close () {
-        this.dialog = false
-        setTimeout(() => {
-          this.editedItem = Object.assign({}, this.defaultItem)
-          this.editedIndex = -1
-        }, 300)
-      },
     }
   }
 </script>
