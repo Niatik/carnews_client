@@ -32,7 +32,7 @@
                         :search="search"
                 >
                     <template slot="items" slot-scope="props">
-                        <tr v-if="!isMobile">
+                        <tr @click="viewSubscription(props.item)" v-if="!isMobile">
                             <td>{{ props.item.begin_date }}</td>
                             <td>{{ props.item.end_date }}</td>
                             <td>{{ props.item.amount.toFixed(2) }}</td>
@@ -41,7 +41,7 @@
                                 </v-checkbox>
                             </td>
                         </tr>
-                        <tr @click="viewPosts(props.item)" v-else>
+                        <tr @click="viewSubscription(props.item)" v-else>
                             <td class="flex-content column">
                                 <ul class="flex-content">
                                     <li class="flex-item" data-label="Дата начала">{{ props.item.begin_date }}</li>
