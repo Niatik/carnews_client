@@ -54,7 +54,6 @@
                                     <v-btn icon class="mx-0" @click.stop="viewItem(props.item)">
                                         <v-icon color="teal">view_compact</v-icon>
                                     </v-btn>
-                                    </v-btn>
                                     <v-btn icon class="mx-0" @click.stop="favoriteItem(props.item)">
                                         <v-icon color="red">stars</v-icon>
                                     </v-btn>
