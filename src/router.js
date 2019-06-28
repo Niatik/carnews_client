@@ -86,5 +86,13 @@ export default new Router({
         auth: true
       }
     },
+    {
+      path: '/favorites/:post_id',
+      component: Post,
+      name: 'favorite',
+      meta: {
+        auth: true
+      }
+    }
   ]
 })
