@@ -14,7 +14,7 @@
         </v-alert>
         <v-card>
             <v-card-title>
-                Оформление подписки
+                {{ card_title}}
                 <v-spacer></v-spacer>
                 <v-text-field
                         append-icon="search"
@@ -91,6 +91,7 @@
       title: 'Подписки'
     },
     data: () => ({
+      card_title: '',
       alert_success: false,
       alert_error: false,
       subscription: false,
@@ -116,12 +117,11 @@
         },
       ],
     }),
-    created () {
-      this.initialize()
-    },
     beforeRouteEnter(to, from, next) {
       next(vm => {
         vm.subscription = 'subscription' === (vm.$route.name);
+        vm.items = []
+        vm.initialize()
       })
     },
     methods: {
@@ -131,7 +131,14 @@
             this.items.push(new Category(category));
           });
         });
-        this.$store.dispatch('changeTitle', 'Оформление подписки')
+        if (!this.subscription) {
+          this.$store.dispatch('changeTitle', 'Оформление подписки')
+          this.card_title = 'Оформление подписки'
+        } else {
+          this.$store.dispatch('changeTitle', 'Просмотр подписки')
+          this.card_title = 'Просмотр подписки'
+        }
+        // eslint-disable-next-line
       },
       onResize() {
         if (window.innerWidth < 769) {
