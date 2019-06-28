@@ -39,14 +39,14 @@
                         :search="search"
                 >
                     <template slot="items" slot-scope="props">
-                        <tr v-if="!isMobile">
+                        <tr v-if="!isMobile && props.item.id > 1">
                             <td>
                                 <v-checkbox v-model="props.selected" primary hide-details></v-checkbox>
                             </td>
                             <td>{{ props.item.name }}</td>
                             <td>{{ props.item.price }}</td>
                         </tr>
-                        <tr v-else>
+                        <tr v-else-if="isMobile && props.item.id > 1">
                             <td class="flex-content column">
                                 <ul class="flex-content">
                                     <li class="flex-item" data-label="">
