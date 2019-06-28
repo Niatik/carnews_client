@@ -70,7 +70,7 @@
                         </td>
                     </template>
                 </v-data-table>
-                <v-btn color="primary" :disabled="ready" @click="subscribe">Подписаться</v-btn>
+                <v-btn color="primary" :disabled="ready" @click="subscribe" v-if="!subscription">Подписаться</v-btn>
             </v-layout>
         </v-form>
     </v-container>
@@ -93,6 +93,7 @@
     data: () => ({
       alert_success: false,
       alert_error: false,
+      subscription: false,
       error: '',
       success: '',
       search: '',
@@ -117,6 +118,11 @@
     }),
     created () {
       this.initialize()
+    },
+    beforeRouteEnter(to, from, next) {
+      next(vm => {
+        vm.subscription = 'subscription' === (vm.$route.name);
+      })
     },
     methods: {
       initialize () {
