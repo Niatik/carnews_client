@@ -3,6 +3,7 @@ import './plugins/vuetify'
 import App from './App.vue'
 import axios from 'axios';
 import VueAxios from 'vue-axios';
+import VueMeta from 'vue-meta'
 import router from './router'
 import store from './store'
 
@@ -10,6 +11,7 @@ Vue.config.productionTip = false
 
 
 Vue.use(VueAxios, axios);
+Vue.use(VueMeta)
 axios.defaults.baseURL = 'http://mysite.local/api';
 
 Vue.router = router
