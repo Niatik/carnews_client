@@ -77,6 +77,14 @@ export default new Router({
       meta: {
         auth: true
       }
-    }
+    },
+    {
+      path: '/favorites',
+      component: PostTable,
+      name: 'favorites',
+      meta: {
+        auth: true
+      }
+    },
   ]
 })
