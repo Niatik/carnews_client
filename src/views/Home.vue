@@ -6,7 +6,7 @@
                 type="error"
         >{{ error }}
         </v-alert>
-=        <v-card>
+        <v-card>
             <v-card-title>
                 {{ cardLabel }}
                 <v-spacer></v-spacer>
@@ -120,7 +120,7 @@
     },
     methods: {
       initialize () {
-        axios.get('/categories').then(({ data }) => {
+        axios.get('/client/categories').then(({ data }) => {
           data.data.forEach(category => {
             this.items.push(new Category(category));
           });
