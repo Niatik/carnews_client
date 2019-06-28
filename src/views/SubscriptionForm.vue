@@ -70,7 +70,7 @@
                         </td>
                     </template>
                 </v-data-table>
-                <v-btn color="primary" @click="subscribe">Подписаться</v-btn>
+                <v-btn color="primary" :disabled="ready" @click="subscribe">Подписаться</v-btn>
             </v-layout>
         </v-form>
     </v-container>
@@ -146,6 +146,11 @@
           this.error = error.toString()
           this.alert_error = true
         })
+      },
+    },
+    computed: {
+      ready () {
+        return !this.selected.length > 0
       }
     }
   }
