@@ -79,6 +79,14 @@ export default new Router({
       }
     },
     {
+      path: '/subscriptions/:subscription',
+      component: SubscriptionForm,
+      name: 'subscription',
+      meta: {
+        auth: true
+      }
+    },
+    {
       path: '/favorites',
       component: PostTable,
       name: 'favorites',
