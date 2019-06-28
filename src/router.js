@@ -6,7 +6,7 @@ import Register from './views/Register'
 import PostTable from './views/PostTable'
 import Post from './views/Post'
 import SubscriptionTable from './views/SubscriptionTable'
-import Subscription from'./views/Subscription'
+import SubscriptionForm from './views/SubscriptionForm'
 
 Vue.use(Router)
 
@@ -71,13 +71,12 @@ export default new Router({
       }
     },
     {
-      path: '/subscriptions/:subscription_id',
-      component: Subscription,
-      name: 'subscription',
+      path: '/subscriptions/create',
+      component: SubscriptionForm,
+      name: 'subscription-create',
       meta: {
         auth: true
       }
     }
-
   ]
 })
