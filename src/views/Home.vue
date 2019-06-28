@@ -124,6 +124,9 @@
           data.data.forEach(category => {
             this.items.push(new Category(category));
           });
+        }).catch((error) => {
+          this.$router.push({path: `/subscriptions/create`})
+          this.error = error.toString()
         });
         this.$store.dispatch('changeTitle', 'Категории')
       },
