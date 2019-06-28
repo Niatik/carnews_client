@@ -104,7 +104,7 @@
     methods: {
       initialize () {
         this.id = this.$route.params.post_id
-        axios.get(`/posts/${this.id }`).then(({ data }) => {
+        axios.get(`/client/posts/${this.id }`).then(({ data }) => {
           this.category_id = data.data.category_id
           this.group_name = data.data.group.name
           this.category_name = data.data.category.name
@@ -122,7 +122,7 @@
       },
       favoritePost () {
         if (!this.favorite) {
-          axios.post(`/posts/${this.id}/favorite`).then(() => {
+          axios.post(`/client/posts/${this.id}/favorite`).then(() => {
             this.alert_success = true
             this.$router.push({path: `/categories/${this.category_id}/posts`})
           }).catch(error => {
@@ -130,7 +130,7 @@
             this.alert_error = true
           })
         } else {
-          axios.post(`/posts/${this.id}/unfavorite`).then(() => {
+          axios.post(`/client/posts/${this.id}/unfavorite`).then(() => {
             this.alert_success = true
             this.$router.push({path: `/favorites`})
           }).catch(error => {
