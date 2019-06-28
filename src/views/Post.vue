@@ -114,9 +114,9 @@
           this.from_id = data.data.from_id
           this.wall_link = data.meta.link
           this.created_at = data.data.created_at
-        }).catch(function (error) {
+        }).catch((error) => {
           this.error = error.toString()
-          this.alert = true
+          this.alert_error = true
         });
         this.$store.dispatch('changeTitle', 'Пост')
       },
