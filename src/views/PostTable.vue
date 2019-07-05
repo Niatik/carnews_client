@@ -81,14 +81,12 @@
 <script>
   import axios from 'axios';
 
-  function Post({ id, group_id, category_id, from_id, message, group, category, scammer_id, created_at}) {
+  function Post({ id, group_id, from_id, message, group, scammer_id, created_at}) {
     this.id = id
     this.group_id = group_id
-    this.category_id = category_id
     this.from_id = from_id
     this.message = message
     this.group = group
-    this.category = category
     this.scammer_id = scammer_id
     this.created_at = created_at
   }
@@ -101,6 +99,7 @@
       cardLabel: 'Посты',
       isMobile: false,
       favorites: false,
+      category_id: 0,
       title: '',
       headers: [
         {
@@ -139,6 +138,7 @@
     },
     methods: {
       initialize () {
+        this.category_id = this.$route.params.category_id
         if (this.favorites) {
           axios.get(`/favorites`).then(({data}) => {
             data.data.forEach(post => {
@@ -149,13 +149,13 @@
           });
           this.$store.dispatch('changeTitle', 'Избранное')
         } else {
-          axios.get(`/posts?category=${this.$route.params.category_id }`).then(({data}) => {
+          axios.get(`/posts?category=${this.category_id }`).then(({data}) => {
             data.data.forEach(post => {
               this.items.push(new Post(post));
             });
             this.size = this.items.length
           });
-          axios.get(`/categories/${this.$route.params.category_id}`).then(({data}) => {
+          axios.get(`/categories/${this.category_id}`).then(({data}) => {
             this.title = data.data.name
             this.$store.dispatch('changeTitle', this.title)
           });
@@ -171,7 +171,7 @@
         if (this.favorites) {
           this.$router.push({path: `/favorites/${item.id}`})
         } else {
-          this.$router.push({path: `/categories/${item.category_id}/posts/${item.id}`})
+          this.$router.push({path: `/categories/${this.category_id}/posts/${item.id}`})
         }
       },
       favoriteItem (item) {
