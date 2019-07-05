@@ -83,9 +83,8 @@
       success: '',
       id: '',
       group_name: '',
-      category_id: 0,
-      category_name: '',
       country_name: '',
+      category_id: 0,
       message: '',
       from_id: '',
       photos: [],
@@ -104,10 +103,9 @@
     methods: {
       initialize () {
         this.id = this.$route.params.post_id
+        this.category_id = this.$route.params.category_id
         axios.get(`/client/posts/${this.id }`).then(({ data }) => {
-          this.category_id = data.data.category_id
           this.group_name = data.data.group.name
-          this.category_name = data.data.category.name
           this.country_name = data.data.group.country.name
           this.message = data.data.message
           this.photos = data.data.photos
