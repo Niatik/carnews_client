@@ -30,10 +30,14 @@
                     <template slot="items" slot-scope="props">
                         <tr @click="viewPosts(props.item)" v-if="!isMobile">
                             <td>{{ props.item.name }}</td>
+                            <td>{{ props.item.parent_name}}</td>
                             <td>{{ props.item.price }}</td>
                             <td class="justify-center layout px-0">
                                 <v-btn icon class="mx-0" @click.stop="viewPosts(props.item)">
                                     <v-icon color="blue">view_list</v-icon>
+                                </v-btn>
+                                <v-btn  icon class="mx-0" @click.stop="viewChildren(props.item)">
+                                    <v-icon color="blue">folder</v-icon>
                                 </v-btn>
                             </td>
                         </tr>
@@ -41,11 +45,15 @@
                             <td class="flex-content column">
                                 <ul class="flex-content">
                                     <li class="flex-item" data-label="Категория">{{ props.item.name }}</li>
+                                    <li class="flex-item" data-label="Родительская">{{ props.item.parent_name}}</li>
                                     <li class="flex-item" data-label="Тариф">{{ props.item.price }}</li>
                                 </ul>
                                 <div class="justify-center layout px-0">
                                     <v-btn icon class="mx-0" @click.stop="viewPosts(props.item)">
                                         <v-icon color="blue">view_list</v-icon>
+                                    </v-btn>
+                                    <v-btn  icon class="mx-0" @click.stop="viewChildren(props.item)">
+                                        <v-icon color="blue">folder</v-icon>
                                     </v-btn>
                                 </div>
                             </td>
@@ -71,10 +79,18 @@
 <script>
   import axios from 'axios';
 
-  function Category({ id, name, price}) {
+  function Category({ id, name, parent, price, keywords}) {
     this.id = id
     this.name = name
+    if (!parent) {
+      this.parent_id = 0
+      this.parent_name = ''
+    } else {
+      this.parent_id = parent.id
+      this.parent_name = parent.name
+    }
     this.price = price
+    this.keywords = keywords
   }
 
   export default {
@@ -96,6 +112,12 @@
           value: 'name'
         },
         {
+          text: 'Родительская категория',
+          align: 'left',
+          sortable: true,
+          value: 'parent_name'
+        },
+        {
           text: 'Тариф',
           align: 'left',
           sortable: true,
@@ -105,6 +127,8 @@
       items: [],
       defaultItem: {
         name: '',
+        parent_id: 0,
+        parent_name: '',
         price: '',
         keywords: ''
       },
@@ -118,9 +142,16 @@
     created () {
       this.initialize()
     },
+    watch: {
+      // eslint-disable-next-line
+      '$route'(to, from) {
+        this.items = []
+        this.initialize()
+      }
+    },
     methods: {
       initialize () {
-        axios.get('/client/categories').then(({ data }) => {
+        axios.get(`/client/categories?parent=${this.$route.params.category_id}`).then(({ data }) => {
           data.data.forEach(category => {
             this.items.push(new Category(category));
           });
@@ -137,6 +168,9 @@
       },
       viewPosts(item) {
         this.$router.push({ path: `/categories/${item.id}/posts` })
+      },
+      viewChildren(item) {
+        this.$router.push({ path: `/categories/${item.id}`})
       },
     }
   }
