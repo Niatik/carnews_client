@@ -83,6 +83,7 @@
       success: '',
       id: '',
       group_name: '',
+      category_name: '',
       country_name: '',
       category_id: 0,
       message: '',
@@ -116,6 +117,10 @@
           this.error = error.toString()
           this.alert_error = true
         });
+        axios.get(`/categories/${this.category_id}`).then(({data}) => {
+          this.category_name = data.data.name
+        });
+
         this.$store.dispatch('changeTitle', 'Пост')
       },
       favoritePost () {
