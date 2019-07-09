@@ -140,7 +140,7 @@
       initialize () {
         this.category_id = this.$route.params.category_id
         if (this.favorites) {
-          axios.get(`/favorites`).then(({data}) => {
+          axios.get(`/client/favorites`).then(({data}) => {
             data.data.forEach(post => {
               this.items.push(new Post(post));
             });
@@ -149,7 +149,7 @@
           });
           this.$store.dispatch('changeTitle', 'Избранное')
         } else {
-          axios.get(`/posts?category=${this.category_id }`).then(({data}) => {
+          axios.get(`/client/posts?category=${this.category_id }`).then(({data}) => {
             data.data.forEach(post => {
               this.items.push(new Post(post));
             });
@@ -177,14 +177,14 @@
       favoriteItem (item) {
         const index = this.items.indexOf(item)
         if (!this.favorites) {
-          axios.post(`/posts/${item.id}/favorite`).then(() => {
+          axios.post(`/client/posts/${item.id}/favorite`).then(() => {
             this.items.splice(index, 1);
           }).catch(error => {
             this.error = error.toString()
             this.alert = true
           })
         } else {
-          axios.post(`/posts/${item.id}/unfavorite`).then(() => {
+          axios.post(`/client/posts/${item.id}/unfavorite`).then(() => {
             this.items.splice(index, 1);
           }).catch(error => {
             this.error = error.toString()
