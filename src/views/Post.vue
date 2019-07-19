@@ -53,6 +53,9 @@
                             <v-btn class="action" color="orange" @click="favoritePost">В Избранное</v-btn>
                         </div>
                         <div>
+                            <v-btn class="action" color="red" @click="deletePost">Удалить</v-btn>
+                        </div>
+                        <div>
                             <v-btn class="action" color="primary" @click="backToPosts">назад</v-btn>
                         </div>
                     </v-card-actions>
@@ -148,6 +151,15 @@
         } else {
           this.$router.push({path: `/favorites`})
         }
+      },
+      deletePost() {
+        axios.post(`/client/posts/${this.id}/delete`).then(() => {
+          this.alert_success = true
+          this.$router.push({path: `/categories/${this.category_id}/posts`})
+        }).catch(error => {
+          this.error = error.toString()
+          this.alert_error = true
+        })
       }
     },
     computed: {

@@ -41,6 +41,9 @@
                                 <v-btn icon class="mx-0" @click.stop="favoriteItem(props.item)">
                                     <v-icon color="red">stars</v-icon>
                                 </v-btn>
+                                <v-btn icon class="mx-0" @click.stop="deleteItem(props.item)">
+                                    <v-icon color="red">delete</v-icon>
+                                </v-btn>
                             </td>
                         </tr>
                         <tr :class="{scammer: props.item.scammer_id > 0}" @click="viewItem(props.item)" v-else>
@@ -56,6 +59,9 @@
                                     </v-btn>
                                     <v-btn icon class="mx-0" @click.stop="favoriteItem(props.item)">
                                         <v-icon color="red">stars</v-icon>
+                                    </v-btn>
+                                    <v-btn icon class="mx-0" @click.stop="deleteItem(props.item)">
+                                        <v-icon color="red">delete</v-icon>
                                     </v-btn>
                                 </div>
                             </td>
@@ -191,6 +197,15 @@
             this.alert = true
           })
         }
+      },
+      deleteItem (item) {
+        const index = this.items.indexOf(item)
+        axios.post(`/client/posts/${item.id}/delete`).then(() => {
+          this.items.splice(index, 1);
+        }).catch(error => {
+          this.error = error.toString()
+          this.alert = true
+        })
       },
       isScammer (item) {
         return item.scammer_id > 0;
