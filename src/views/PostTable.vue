@@ -31,10 +31,10 @@
                 >
                     <template slot="items" slot-scope="props">
                         <tr :class="{scammer: props.item.scammer_id > 0}" @click="viewItem(props.item)" v-if="!isMobile">
-                            <td>{{ props.item.group.name }}</td>
-                            <td>{{ props.item.message }}</td>
-                            <td class="purple--text">{{ props.item.created_at }}</td>
-                            <td class="justify-center layout px-0">
+                            <td v-if="props.item.hasOwnProperty('message')">{{ props.item.message }}</td>
+                            <td v-else>{{ props.item.name }}</td>
+                            <td v-if="props.item.hasOwnProperty('message')" class="purple--text">{{ props.item.created_at }}</td>
+                            <td class="justify-center layout px-0" v-if="props.item.hasOwnProperty('message')">
                                 <v-btn icon class="mx-0" @click.stop="viewItem(props.item)">
                                     <v-icon color="teal">view_compact</v-icon>
                                 </v-btn>
@@ -45,15 +45,20 @@
                                     <v-icon color="red">delete</v-icon>
                                 </v-btn>
                             </td>
+                            <td class="justify-center layout px-0" v-else>
+                                <v-btn icon class="mx-0" @click.stop="viewItem(props.item)">
+                                    <v-icon color="teal">view_compact</v-icon>
+                                </v-btn>
+                            </td>
                         </tr>
                         <tr :class="{scammer: props.item.scammer_id > 0}" @click="viewItem(props.item)" v-else>
                             <td class="flex-content column">
                                 <ul class="flex-content">
-                                    <li class="flex-item" data-label="Группа">{{ props.item.group.name }}</li>
-                                    <li class="flex-item" data-label="Сообщение">{{ props.item.message }}</li>
-                                    <li class="flex-item red--text" data-label="Создано">{{ props.item.created_at }}</li>
+                                    <li v-if="props.item.hasOwnProperty('message')" class="flex-item" data-label="Сообщение">{{ props.item.message }}</li>
+                                    <li v-else class="flex-item" data-label="Категория">{{ props.item.name }}</li>
+                                    <li v-if="props.item.hasOwnProperty('message')" class="flex-item red--text" data-label="Создано">{{ props.item.created_at }}</li>
                                 </ul>
-                                <div class="justify-center layout px-0">
+                                <div class="justify-center layout px-0" v-if="props.item.hasOwnProperty('message')">
                                     <v-btn icon class="mx-0" @click.stop="viewItem(props.item)">
                                         <v-icon color="teal">view_compact</v-icon>
                                     </v-btn>
@@ -62,6 +67,11 @@
                                     </v-btn>
                                     <v-btn icon class="mx-0" @click.stop="deleteItem(props.item)">
                                         <v-icon color="red">delete</v-icon>
+                                    </v-btn>
+                                </div>
+                                <div class="justify-center layout px-0" v-else>
+                                    <v-btn icon class="mx-0" @click.stop="viewItem(props.item)">
+                                        <v-icon color="teal">view_compact</v-icon>
                                     </v-btn>
                                 </div>
                             </td>
@@ -96,6 +106,21 @@
     this.scammer_id = scammer_id
     this.created_at = created_at
   }
+
+  function Category({ id, name, parent, price, keywords}) {
+    this.id = id
+    this.name = name
+    if (!parent) {
+      this.parent_id = 0
+      this.parent_name = ''
+    } else {
+      this.parent_id = parent.id
+      this.parent_name = parent.name
+    }
+    this.price = price
+    this.keywords = keywords
+  }
+
   export default {
     name: 'PostView',
     data: () => ({
@@ -142,6 +167,13 @@
         vm.initialize()
       })
     },
+    watch: {
+      // eslint-disable-next-line
+      '$route'(to, from) {
+        this.items = []
+        this.initialize()
+      }
+    },
     methods: {
       initialize () {
         this.category_id = this.$route.params.category_id
@@ -161,7 +193,15 @@
             });
             this.size = this.items.length
           });
-          axios.get(`/categories/${this.category_id}`).then(({data}) => {
+          axios.get(`/client/categories?parent=${this.category_id}`).then(({ data }) => {
+            data.data.forEach(category => {
+              this.items.push(new Category(category));
+            });
+          }).catch((error) => {
+            this.error = error.toString()
+          });
+
+            axios.get(`/categories/${this.category_id}`).then(({data}) => {
             this.title = data.data.name
             this.$store.dispatch('changeTitle', this.title)
           });
@@ -177,7 +217,11 @@
         if (this.favorites) {
           this.$router.push({path: `/favorites/${item.id}`})
         } else {
-          this.$router.push({path: `/categories/${this.category_id}/posts/${item.id}`})
+          if (item.hasOwnProperty('message')) {
+            this.$router.push({path: `/categories/${this.category_id}/posts/${item.id}`})
+          } else {
+            this.$router.push({path: `/categories/${item.id}/posts`})
+          }
         }
       },
       favoriteItem (item) {
