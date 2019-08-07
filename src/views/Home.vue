@@ -36,9 +36,6 @@
                                 <v-btn icon class="mx-0" @click.stop="viewPosts(props.item)">
                                     <v-icon color="blue">view_list</v-icon>
                                 </v-btn>
-                                <v-btn  icon class="mx-0" @click.stop="viewChildren(props.item)">
-                                    <v-icon color="blue">folder</v-icon>
-                                </v-btn>
                             </td>
                         </tr>
                         <tr @click="viewPosts(props.item)" v-else>
@@ -51,9 +48,6 @@
                                 <div class="justify-center layout px-0">
                                     <v-btn icon class="mx-0" @click.stop="viewPosts(props.item)">
                                         <v-icon color="blue">view_list</v-icon>
-                                    </v-btn>
-                                    <v-btn  icon class="mx-0" @click.stop="viewChildren(props.item)">
-                                        <v-icon color="blue">folder</v-icon>
                                     </v-btn>
                                 </div>
                             </td>
@@ -168,9 +162,6 @@
       },
       viewPosts(item) {
         this.$router.push({ path: `/categories/${item.id}/posts` })
-      },
-      viewChildren(item) {
-        this.$router.push({ path: `/categories/${item.id}`})
       },
     }
   }
