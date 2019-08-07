@@ -12,7 +12,8 @@ Vue.config.productionTip = false
 
 Vue.use(VueAxios, axios);
 Vue.use(VueMeta)
-axios.defaults.baseURL = 'http://mysite.local/api';
+//axios.defaults.baseURL = 'http://mysite.local/api';
+axios.defaults.baseURL = 'http://backadm.globalparts.kz/api';
 
 Vue.router = router
 Vue.use(require('@websanova/vue-auth'), {
